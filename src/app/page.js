@@ -5,7 +5,8 @@ export default function Home() {
   return (
     <div className="font-sans grid">
       <main className="p-6">
-        <h1>Apartment Finder </h1>
+        <h1>Apartment Finder</h1>
+        <div>why is it</div>
 
 
         <Link href="/listings" className="text-blue-500 underline">
