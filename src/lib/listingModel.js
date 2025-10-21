@@ -115,10 +115,14 @@ export function validateListing(listing) {
       if (listing.photos.length > LISTING_CONSTRAINTS.photos.maxCount) {
         errors.push(`Maximum ${LISTING_CONSTRAINTS.photos.maxCount} photos allowed`);
       }
-      // Validate each photo URL
+      // Validate each photo URL (skip empty strings)
       listing.photos.forEach((photo, index) => {
-        if (typeof photo !== 'string' || photo.trim() === '') {
-          errors.push(`Photo ${index + 1} must be a valid URL`);
+        // Only validate non-empty photo URLs
+        if (photo && photo.trim() !== '') {
+          if (typeof photo !== 'string') {
+            errors.push(`Photo ${index + 1} must be a valid URL`);
+          }
+          // Could add more URL validation here if needed
         }
       });
     }

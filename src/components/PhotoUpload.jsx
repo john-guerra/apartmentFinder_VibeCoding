@@ -57,6 +57,10 @@ export default function PhotoUpload({ photos, onPhotosChange, maxPhotos = 10 }) 
 
   const handlePhotoUrlChange = (index, url) => {
     const newPhotos = [...photos];
+    // Extend array if necessary
+    while (newPhotos.length <= index) {
+      newPhotos.push("");
+    }
     newPhotos[index] = url;
     onPhotosChange(newPhotos);
   };

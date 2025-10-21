@@ -16,7 +16,7 @@ export default function ListingForm({
     price: initialData.price || "",
     numberOfRooms: initialData.numberOfRooms || "",
     location: initialData.location || "",
-    photos: initialData.photos || []
+    photos: initialData.photos && initialData.photos.length > 0 ? initialData.photos : [""]
   });
 
   const [errors, setErrors] = useState({});
