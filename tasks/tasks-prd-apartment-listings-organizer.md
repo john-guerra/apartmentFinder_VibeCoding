@@ -1,5 +1,15 @@
 # Tasks: Apartment Listings Organizer
 
+## Architecture Note
+
+This project is built as a **Next.js 15 monorepo** using the App Router. It combines frontend (React) and backend (API routes) in a single codebase, not separate frontend/backend folders.
+
+**Key architectural points:**
+- **Frontend**: React Server Components and Client Components in `src/app/` and `src/components/`
+- **Backend**: API routes in `src/app/api/`
+- **Database**: MongoDB with Mongoose, schemas in `src/models/`, connection in `src/lib/`
+- **Deployment**: Single unified deployment (Vercel recommended)
+
 ## SCRUM Sprint Overview
 
 This project is organized into 2-week sprints following the SCRUM methodology. Each sprint delivers a fully functional MVP that provides immediate value to the user.
@@ -21,54 +31,58 @@ This project is organized into 2-week sprints following the SCRUM methodology. E
 ## Relevant Files
 
 ### Sprint 1 Files
-- `backend/server.js` - Main Express server setup
-- `backend/models/Listing.js` - MongoDB schema for apartment listings
-- `backend/routes/listings.js` - API routes for listing CRUD operations
-- `backend/routes/listings.test.js` - API route tests
-- `backend/config/database.js` - MongoDB connection configuration
-- `frontend/src/App.jsx` - Main React application component
-- `frontend/src/components/ListingCard.jsx` - Individual listing card component
-- `frontend/src/components/ListingCard.test.jsx` - ListingCard component tests
-- `frontend/src/components/ListingsList.jsx` - Container for all listing cards
-- `frontend/src/components/ListingsList.test.jsx` - ListingsList component tests
-- `frontend/src/components/DetailsPanel.jsx` - Listing details and notes panel
-- `frontend/src/components/DetailsPanel.test.jsx` - DetailsPanel component tests
-- `frontend/src/components/AddListingModal.jsx` - Modal for manual listing entry
-- `frontend/src/components/AddListingModal.test.jsx` - AddListingModal component tests
-- `frontend/src/services/api.js` - API service layer for backend communication
-- `frontend/src/App.css` - Main application styles
-- `package.json` - Backend dependencies
-- `frontend/package.json` - Frontend dependencies
+- `src/lib/mongodb.js` - MongoDB connection utility with serverless caching
+- `src/models/Listing.js` - Mongoose schema for apartment listings
+- `src/app/api/listings/route.js` - API route for GET all and POST listings
+- `src/app/api/listings/[id]/route.js` - API route for GET, PUT, DELETE individual listing
+- `__tests__/api/listings.test.js` - API route tests
+- `src/app/page.js` - Main application page (home)
+- `src/app/listings/page.js` - Listings page
+- `src/components/ListingCard.jsx` - Individual listing card component
+- `src/components/ListingCard.test.jsx` - ListingCard component tests
+- `src/components/ListingsList.jsx` - Container for all listing cards
+- `src/components/ListingsList.test.jsx` - ListingsList component tests
+- `src/components/DetailsPanel.jsx` - Listing details and notes panel
+- `src/components/DetailsPanel.test.jsx` - DetailsPanel component tests
+- `src/components/AddListingModal.jsx` - Modal for manual listing entry
+- `src/components/AddListingModal.test.jsx` - AddListingModal component tests
+- `src/lib/api.js` - API service layer for server actions/fetching
+- `src/app/globals.css` - Global application styles
+- `package.json` - All project dependencies (monorepo)
 - `.env.example` - Environment variables template
+- `.env.local` - Local environment variables (gitignored)
 
 ### Sprint 2 Files
-- `backend/services/craigslistParser.js` - Craigslist URL parsing and data extraction
-- `backend/services/craigslistParser.test.js` - Parser service tests
-- `backend/routes/upload.js` - API route for Craigslist URL uploads
-- `backend/routes/upload.test.js` - Upload route tests
-- `frontend/src/components/UploadModal.jsx` - Modal for Craigslist URL upload
-- `frontend/src/components/UploadModal.test.jsx` - UploadModal component tests
-- `frontend/src/components/PhotoGallery.jsx` - Photo display component
-- `frontend/src/components/PhotoGallery.test.jsx` - PhotoGallery component tests
+- `src/lib/craigslistParser.js` - Craigslist URL parsing and data extraction
+- `__tests__/lib/craigslistParser.test.js` - Parser service tests
+- `src/app/api/upload/route.js` - API route for Craigslist URL uploads
+- `__tests__/api/upload.test.js` - Upload route tests
+- `src/components/UploadModal.jsx` - Modal for Craigslist URL upload
+- `src/components/UploadModal.test.jsx` - UploadModal component tests
+- `src/components/PhotoGallery.jsx` - Photo display component
+- `src/components/PhotoGallery.test.jsx` - PhotoGallery component tests
 
 ### Sprint 3 Files
-- `backend/models/VisitPlan.js` - MongoDB schema for visit plans
-- `backend/routes/visitPlans.js` - API routes for visit plan CRUD operations
-- `backend/routes/visitPlans.test.js` - Visit plan route tests
-- `frontend/src/components/VisitPlansSection.jsx` - Visit plans display and management
-- `frontend/src/components/VisitPlansSection.test.jsx` - VisitPlansSection component tests
-- `frontend/src/components/CreateVisitPlanModal.jsx` - Modal for creating visit plans
-- `frontend/src/components/CreateVisitPlanModal.test.jsx` - CreateVisitPlanModal component tests
-- `frontend/src/components/FilterBar.jsx` - Filter controls for seen/unseen listings
-- `frontend/src/components/FilterBar.test.jsx` - FilterBar component tests
-- `frontend/src/components/ConfirmDialog.jsx` - Reusable confirmation dialog
-- `frontend/src/components/ConfirmDialog.test.jsx` - ConfirmDialog component tests
+- `src/models/VisitPlan.js` - Mongoose schema for visit plans
+- `src/app/api/visit-plans/route.js` - API route for visit plan CRUD operations
+- `__tests__/api/visit-plans.test.js` - Visit plan route tests
+- `src/components/VisitPlansSection.jsx` - Visit plans display and management
+- `src/components/VisitPlansSection.test.jsx` - VisitPlansSection component tests
+- `src/components/CreateVisitPlanModal.jsx` - Modal for creating visit plans
+- `src/components/CreateVisitPlanModal.test.jsx` - CreateVisitPlanModal component tests
+- `src/components/FilterBar.jsx` - Filter controls for seen/unseen listings
+- `src/components/FilterBar.test.jsx` - FilterBar component tests
+- `src/components/ConfirmDialog.jsx` - Reusable confirmation dialog
+- `src/components/ConfirmDialog.test.jsx` - ConfirmDialog component tests
 
 ### Notes
-- Unit tests should be placed alongside the code files they are testing
+- Unit tests should be placed in `__tests__/` directory mirroring the source structure
 - Integration tests for API routes should test database interactions
 - Component tests should use React Testing Library
 - E2E tests will be added at the end of each sprint to validate the full user workflow
+- Next.js API routes are serverless functions - ensure MongoDB connection caching
+- Use Server Actions for mutations where appropriate
+- Follow Next.js App Router conventions for file structure
 
 ---
 
@@ -91,31 +105,31 @@ This project is organized into 2-week sprints following the SCRUM methodology. E
 
 ## Sprint 1 Tasks
 
-- [ ] 1.0 Project Setup & Infrastructure
-  - [ ] 1.1 Initialize Node.js backend project with Express, MongoDB, and necessary dependencies
-  - [ ] 1.2 Initialize React frontend project with Create React App and necessary dependencies
+- [x] 1.0 Project Setup & Infrastructure
+  - [x] 1.1 Initialize Node.js backend project with Express, MongoDB, and necessary dependencies (Complete - Next.js includes this)
+  - [x] 1.2 Initialize React frontend project with Create React App and necessary dependencies (Complete - Next.js includes this)
   - [ ] 1.3 Set up MongoDB database connection and configuration
-  - [ ] 1.4 Create project folder structure (backend/frontend separation)
+  - [ ] 1.4 Document and organize Next.js project structure
   - [ ] 1.5 Set up environment variables configuration (.env files)
   - [ ] 1.6 Configure ESLint and Prettier for code formatting
   - [ ] 1.7 Set up basic CI/CD pipeline or deployment configuration
 
 - [ ] 2.0 Backend API Development
-  - [ ] 2.1 Create Listing model schema in MongoDB (title, location, price, bedrooms, notes, seen, dateAdded)
-  - [ ] 2.2 Implement POST /api/listings endpoint for creating new listings
-  - [ ] 2.3 Implement GET /api/listings endpoint for retrieving all listings
-  - [ ] 2.4 Implement PUT /api/listings/:id endpoint for updating listing details and seen status
-  - [ ] 2.5 Implement DELETE /api/listings/:id endpoint for deleting listings
-  - [ ] 2.6 Add input validation and error handling for all endpoints
-  - [ ] 2.7 Set up CORS configuration for frontend-backend communication
-  - [ ] 2.8 Write unit tests for all API endpoints using Jest and Supertest
+  - [ ] 2.1 Create Listing model schema in Mongoose (title, location, price, bedrooms, notes, seen, dateAdded)
+  - [ ] 2.2 Implement POST /api/listings route for creating new listings
+  - [ ] 2.3 Implement GET /api/listings route for retrieving all listings
+  - [ ] 2.4 Implement PUT /api/listings/[id] route for updating listing details and seen status
+  - [ ] 2.5 Implement DELETE /api/listings/[id] route for deleting listings
+  - [ ] 2.6 Add input validation and error handling for all routes
+  - [ ] 2.7 CORS is handled by Next.js automatically
+  - [ ] 2.8 Write unit tests for all API routes using Jest
 
 - [ ] 3.0 Frontend Application Structure
-  - [ ] 3.1 Create main App component with two-panel layout structure
-  - [ ] 3.2 Set up React Router (if needed) and basic navigation
-  - [ ] 3.3 Create API service layer for backend communication
-  - [ ] 3.4 Implement global state management (Context API or simple state)
-  - [ ] 3.5 Set up responsive CSS framework and base styles matching mockup design
+  - [ ] 3.1 Create main page with two-panel layout structure in src/app/listings/page.js
+  - [ ] 3.2 Next.js App Router handles routing automatically
+  - [ ] 3.3 Create API service layer or use Server Actions for data fetching
+  - [ ] 3.4 Implement state management (React Context or simple useState)
+  - [ ] 3.5 Set up Tailwind CSS styles matching mockup design
   - [ ] 3.6 Create reusable UI components (buttons, modals, form inputs)
   - [ ] 3.7 Implement error handling and loading states for API calls
 
@@ -132,11 +146,11 @@ This project is organized into 2-week sprints following the SCRUM methodology. E
 
 - [ ] 5.0 Testing & Deployment
   - [ ] 5.1 Write unit tests for all React components using React Testing Library
-  - [ ] 5.2 Write integration tests for API endpoints with database interactions
+  - [ ] 5.2 Write integration tests for API routes with database interactions
   - [ ] 5.3 Create end-to-end test for complete user workflow (add listing → mark seen → add notes)
   - [ ] 5.4 Perform manual testing on different devices and browsers
-  - [ ] 5.5 Set up production build configuration for both frontend and backend
-  - [ ] 5.6 Deploy application to chosen hosting platform (Heroku, Vercel, etc.)
+  - [ ] 5.5 Next.js handles build configuration automatically with `next build`
+  - [ ] 5.6 Deploy application to Vercel or chosen platform
   - [ ] 5.7 Validate deployed application meets Sprint 1 acceptance criteria
   - [ ] 5.8 Document setup and deployment instructions
 
