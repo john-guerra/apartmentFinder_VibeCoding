@@ -1,0 +1,14 @@
+node_modules/
+.next/
+build/
+out/
+dist/
+*.min.js
+*.min.css
+package-lock.json
+pnpm-lock.yaml
+.git/
+.env
+.env.local
+.env.*.local
+coverage/

@@ -11,10 +11,10 @@ export default function DeleteListingButton({ listingId }) {
 
   const handleDelete = async () => {
     setIsDeleting(true);
-    
+
     try {
       const result = await deleteListing(listingId);
-      
+
       if (result.success) {
         router.push("/listings");
       } else {
@@ -32,9 +32,7 @@ export default function DeleteListingButton({ listingId }) {
     return (
       <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
         <div className="bg-white rounded-lg p-6 max-w-md mx-4">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">
-            Confirm Deletion
-          </h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">Confirm Deletion</h3>
           <p className="text-gray-600 mb-6">
             Are you sure you want to delete this listing? This action cannot be undone.
           </p>

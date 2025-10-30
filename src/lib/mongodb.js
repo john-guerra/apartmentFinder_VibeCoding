@@ -7,7 +7,7 @@ if (!uri) {
   throw new Error("Please define the MONGODB_URI environment variable inside .env.local");
 }
 
-const options = { 
+const options = {
   appName: "ApartmentFinder",
   maxPoolSize: 10, // Maintain up to 10 socket connections
   serverSelectionTimeoutMS: 5000, // Keep trying to send operations for 5 seconds
@@ -16,6 +16,6 @@ const options = {
   // bufferCommands: false, // Disable mongoose buffering
 };
 
-let client = new MongoClient(uri, options);
+const client = new MongoClient(uri, options);
 
 export default client;

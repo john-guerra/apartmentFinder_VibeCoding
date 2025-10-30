@@ -8,14 +8,12 @@ const DB_NAME = "apartmentFinder";
 const COLLECTION_NAME = "listings";
 
 export async function testDatabaseConnection() {
-  let isConnected = false;
+  const isConnected = false;
   try {
     const mongoClient = await client.connect();
     // Send a ping to confirm a successful connection
     await mongoClient.db("admin").command({ ping: 1 });
-    console.log(
-      "Pinged your deployment. You successfully connected to MongoDB!"
-    ); // because this is a server action, the console.log will be outputted to your terminal not in the browser
+    console.warn("Pinged your deployment. You successfully connected to MongoDB!"); // because this is a server action, the console.log will be outputted to your terminal not in the browser
     return !isConnected;
   } catch (e) {
     console.error(e);
@@ -37,15 +35,15 @@ export async function createListing(formData) {
       price: formData.get("price"),
       numberOfRooms: formData.get("numberOfRooms"),
       location: formData.get("location"),
-      photos: formData.getAll("photos").filter(photo => photo && photo.trim() !== "")
+      photos: formData.getAll("photos").filter((photo) => photo && photo.trim() !== ""),
     };
 
     // Validate the listing data
     const validation = validateListing(rawListing);
     if (!validation.isValid) {
-      return { 
-        success: false, 
-        error: validation.errors.join(", ") 
+      return {
+        success: false,
+        error: validation.errors.join(", "),
       };
     }
 
@@ -56,21 +54,21 @@ export async function createListing(formData) {
     const mongoClient = await client.connect();
     const db = mongoClient.db(DB_NAME);
     const collection = db.collection(COLLECTION_NAME);
-    
+
     const result = await collection.insertOne(sanitizedListing);
-    
-    return { 
-      success: true, 
-      data: { 
+
+    return {
+      success: true,
+      data: {
         id: result.insertedId.toString(),
-        ...sanitizedListing 
-      } 
+        ...sanitizedListing,
+      },
     };
   } catch (error) {
     console.error("Error creating listing:", error);
-    return { 
-      success: false, 
-      error: "Failed to create listing. Please try again." 
+    return {
+      success: false,
+      error: "Failed to create listing. Please try again.",
     };
   }
 }
@@ -85,32 +83,32 @@ export async function getListings(options = {}) {
     const mongoClient = await client.connect();
     const db = mongoClient.db(DB_NAME);
     const collection = db.collection(COLLECTION_NAME);
-    
+
     const { limit = 50, skip = 0, sortBy = "createdAt", sortOrder = -1 } = options;
-    
+
     const listings = await collection
       .find({})
       .sort({ [sortBy]: sortOrder })
       .skip(skip)
       .limit(limit)
       .toArray();
-    
+
     // Convert ObjectId to string for client-side usage
-    const formattedListings = listings.map(listing => ({
+    const formattedListings = listings.map((listing) => ({
       ...listing,
       id: listing._id.toString(),
-      _id: listing._id.toString()
+      _id: listing._id.toString(),
     }));
-    
-    return { 
-      success: true, 
-      data: formattedListings 
+
+    return {
+      success: true,
+      data: formattedListings,
     };
   } catch (error) {
     console.error("Error fetching listings:", error);
-    return { 
-      success: false, 
-      error: "Failed to fetch listings. Please try again." 
+    return {
+      success: false,
+      error: "Failed to fetch listings. Please try again.",
     };
   }
 }
@@ -123,38 +121,38 @@ export async function getListings(options = {}) {
 export async function getListingById(id) {
   try {
     if (!ObjectId.isValid(id)) {
-      return { 
-        success: false, 
-        error: "Invalid listing ID" 
+      return {
+        success: false,
+        error: "Invalid listing ID",
       };
     }
 
     const mongoClient = await client.connect();
     const db = mongoClient.db(DB_NAME);
     const collection = db.collection(COLLECTION_NAME);
-    
+
     const listing = await collection.findOne({ _id: new ObjectId(id) });
-    
+
     if (!listing) {
-      return { 
-        success: false, 
-        error: "Listing not found" 
+      return {
+        success: false,
+        error: "Listing not found",
       };
     }
-    
-    return { 
-      success: true, 
+
+    return {
+      success: true,
       data: {
         ...listing,
         id: listing._id.toString(),
-        _id: listing._id.toString()
-      }
+        _id: listing._id.toString(),
+      },
     };
   } catch (error) {
     console.error("Error fetching listing:", error);
-    return { 
-      success: false, 
-      error: "Failed to fetch listing. Please try again." 
+    return {
+      success: false,
+      error: "Failed to fetch listing. Please try again.",
     };
   }
 }
@@ -168,9 +166,9 @@ export async function getListingById(id) {
 export async function updateListing(id, formData) {
   try {
     if (!ObjectId.isValid(id)) {
-      return { 
-        success: false, 
-        error: "Invalid listing ID" 
+      return {
+        success: false,
+        error: "Invalid listing ID",
       };
     }
 
@@ -181,15 +179,15 @@ export async function updateListing(id, formData) {
       price: formData.get("price"),
       numberOfRooms: formData.get("numberOfRooms"),
       location: formData.get("location"),
-      photos: formData.getAll("photos").filter(photo => photo && photo.trim() !== "")
+      photos: formData.getAll("photos").filter((photo) => photo && photo.trim() !== ""),
     };
 
     // Validate the listing data
     const validation = validateListing(rawListing);
     if (!validation.isValid) {
-      return { 
-        success: false, 
-        error: validation.errors.join(", ") 
+      return {
+        success: false,
+        error: validation.errors.join(", "),
       };
     }
 
@@ -200,35 +198,35 @@ export async function updateListing(id, formData) {
     const mongoClient = await client.connect();
     const db = mongoClient.db(DB_NAME);
     const collection = db.collection(COLLECTION_NAME);
-    
+
     const result = await collection.updateOne(
       { _id: new ObjectId(id) },
       { $set: sanitizedListing }
     );
-    
+
     if (result.matchedCount === 0) {
-      return { 
-        success: false, 
-        error: "Listing not found" 
+      return {
+        success: false,
+        error: "Listing not found",
       };
     }
-    
+
     // Fetch the updated listing
     const updatedListing = await collection.findOne({ _id: new ObjectId(id) });
-    
-    return { 
-      success: true, 
+
+    return {
+      success: true,
       data: {
         ...updatedListing,
         id: updatedListing._id.toString(),
-        _id: updatedListing._id.toString()
-      }
+        _id: updatedListing._id.toString(),
+      },
     };
   } catch (error) {
     console.error("Error updating listing:", error);
-    return { 
-      success: false, 
-      error: "Failed to update listing. Please try again." 
+    return {
+      success: false,
+      error: "Failed to update listing. Please try again.",
     };
   }
 }
@@ -241,33 +239,33 @@ export async function updateListing(id, formData) {
 export async function deleteListing(id) {
   try {
     if (!ObjectId.isValid(id)) {
-      return { 
-        success: false, 
-        error: "Invalid listing ID" 
+      return {
+        success: false,
+        error: "Invalid listing ID",
       };
     }
 
     const mongoClient = await client.connect();
     const db = mongoClient.db(DB_NAME);
     const collection = db.collection(COLLECTION_NAME);
-    
+
     const result = await collection.deleteOne({ _id: new ObjectId(id) });
-    
+
     if (result.deletedCount === 0) {
-      return { 
-        success: false, 
-        error: "Listing not found" 
+      return {
+        success: false,
+        error: "Listing not found",
       };
     }
-    
-    return { 
-      success: true 
+
+    return {
+      success: true,
     };
   } catch (error) {
     console.error("Error deleting listing:", error);
-    return { 
-      success: false, 
-      error: "Failed to delete listing. Please try again." 
+    return {
+      success: false,
+      error: "Failed to delete listing. Please try again.",
     };
   }
 }

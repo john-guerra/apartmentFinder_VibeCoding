@@ -15,10 +15,10 @@ export default function NewListing() {
   const handleSubmit = async (formData) => {
     setIsLoading(true);
     setError("");
-    
+
     try {
       const result = await createListing(formData);
-      
+
       if (result.success) {
         setSuccess(true);
         // Redirect to the new listing after a short delay
@@ -41,10 +41,22 @@ export default function NewListing() {
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-2xl mx-auto text-center">
           <div className="bg-green-50 border border-green-200 rounded-lg p-8">
-            <svg className="mx-auto h-16 w-16 text-green-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+            <svg
+              className="mx-auto h-16 w-16 text-green-600 mb-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M5 13l4 4L19 7"
+              />
             </svg>
-            <h2 className="text-2xl font-bold text-green-800 mb-2">Listing Created Successfully!</h2>
+            <h2 className="text-2xl font-bold text-green-800 mb-2">
+              Listing Created Successfully!
+            </h2>
             <p className="text-green-600">Redirecting to your new listing...</p>
           </div>
         </div>
@@ -64,12 +76,14 @@ export default function NewListing() {
                 Fill out the form below to add your apartment listing
               </p>
             </div>
-            <Link
-              href="/listings"
-              className="text-blue-600 hover:text-blue-800 flex items-center"
-            >
+            <Link href="/listings" className="text-blue-600 hover:text-blue-800 flex items-center">
               <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M15 19l-7-7 7-7"
+                />
               </svg>
               Back to Listings
             </Link>
@@ -80,8 +94,18 @@ export default function NewListing() {
         {error && (
           <div className="mb-6 bg-red-50 border border-red-200 rounded-md p-4">
             <div className="flex">
-              <svg className="w-5 h-5 text-red-400 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              <svg
+                className="w-5 h-5 text-red-400 mr-2 mt-0.5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
               </svg>
               <div>
                 <h3 className="text-red-800 font-medium">Error Creating Listing</h3>

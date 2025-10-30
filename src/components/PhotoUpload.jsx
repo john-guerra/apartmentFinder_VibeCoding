@@ -23,17 +23,17 @@ export default function PhotoUpload({ photos, onPhotosChange, maxPhotos = 10 }) 
     try {
       const uploadPromises = files.map(async (file) => {
         const formData = new FormData();
-        formData.append('file', file);
+        formData.append("file", file);
 
-        const response = await fetch('/api/upload', {
-          method: 'POST',
+        const response = await fetch("/api/upload", {
+          method: "POST",
           body: formData,
         });
 
         const result = await response.json();
-        
+
         if (!result.success) {
-          throw new Error(result.error || 'Upload failed');
+          throw new Error(result.error || "Upload failed");
         }
 
         return result.url;
@@ -42,15 +42,14 @@ export default function PhotoUpload({ photos, onPhotosChange, maxPhotos = 10 }) 
       const uploadedUrls = await Promise.all(uploadPromises);
       const newPhotos = [...photos, ...uploadedUrls];
       onPhotosChange(newPhotos);
-
     } catch (error) {
-      console.error('Upload error:', error);
-      setUploadError(error.message || 'Failed to upload photos');
+      console.error("Upload error:", error);
+      setUploadError(error.message || "Failed to upload photos");
     } finally {
       setIsUploading(false);
       // Clear the file input
       if (fileInputRef.current) {
-        fileInputRef.current.value = '';
+        fileInputRef.current.value = "";
       }
     }
   };
@@ -81,8 +80,18 @@ export default function PhotoUpload({ photos, onPhotosChange, maxPhotos = 10 }) 
       {/* Upload Section */}
       <div className="border-2 border-dashed border-gray-300 rounded-lg p-6">
         <div className="text-center">
-          <svg className="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
-            <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          <svg
+            className="mx-auto h-12 w-12 text-gray-400"
+            stroke="currentColor"
+            fill="none"
+            viewBox="0 0 48 48"
+          >
+            <path
+              d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
           </svg>
           <div className="mt-4">
             <button
@@ -91,7 +100,7 @@ export default function PhotoUpload({ photos, onPhotosChange, maxPhotos = 10 }) 
               disabled={isUploading || photos.length >= maxPhotos}
               className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {isUploading ? 'Uploading...' : 'Upload Photos'}
+              {isUploading ? "Uploading..." : "Upload Photos"}
             </button>
             <input
               ref={fileInputRef}
@@ -117,9 +126,7 @@ export default function PhotoUpload({ photos, onPhotosChange, maxPhotos = 10 }) 
 
       {/* Photo URLs Section */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          Photo URLs
-        </label>
+        <label className="block text-sm font-medium text-gray-700 mb-2">Photo URLs</label>
         <div className="space-y-2">
           {photos.map((photo, index) => (
             <div key={index} className="flex gap-2 items-start">
@@ -138,8 +145,8 @@ export default function PhotoUpload({ photos, onPhotosChange, maxPhotos = 10 }) 
                       alt={`Preview ${index + 1}`}
                       className="h-20 w-20 object-cover rounded-md border"
                       onError={(e) => {
-                        e.target.style.display = 'none';
-                        e.target.nextSibling.style.display = 'block';
+                        e.target.style.display = "none";
+                        e.target.nextSibling.style.display = "block";
                       }}
                     />
                     <div className="hidden h-20 w-20 bg-gray-200 rounded-md border flex items-center justify-center">
@@ -158,7 +165,7 @@ export default function PhotoUpload({ photos, onPhotosChange, maxPhotos = 10 }) 
             </div>
           ))}
         </div>
-        
+
         {photos.length < maxPhotos && (
           <button
             type="button"
@@ -168,7 +175,7 @@ export default function PhotoUpload({ photos, onPhotosChange, maxPhotos = 10 }) 
             + Add Photo URL
           </button>
         )}
-        
+
         <p className="mt-1 text-sm text-gray-500">
           {photos.length}/{maxPhotos} photos added
         </p>
