@@ -38,6 +38,7 @@ The goal is to create a fast, responsive web application that allows users to qu
 ## Functional Requirements
 
 ### FR1: Listing Upload
+
 1.1. The system must provide an "Upload Listings" button/interface
 1.2. The system must automatically fetch and parse listing data from Craigslist URLs
 1.3. The system must extract key information including: title, price, number of bedrooms, location, and available photos
@@ -45,6 +46,7 @@ The goal is to create a fast, responsive web application that allows users to qu
 1.5. The system must validate that URLs are valid Craigslist listings before processing
 
 ### FR2: Listing Display
+
 2.1. The system must display all listings in a scrollable list view
 2.2. Each listing card must show: checkbox (for marking as seen), title, location, price, number of bedrooms, photo count, and note indicator
 2.3. The system must display a "Pic Set" indicator showing the number of available photos
@@ -52,6 +54,7 @@ The goal is to create a fast, responsive web application that allows users to qu
 2.5. The system must provide a way to filter between "all listings," "seen," and "unseen" listings
 
 ### FR3: Listing Details
+
 3.1. The system must provide a details panel that opens when a listing is selected
 3.2. The details panel must display the listing title at the top
 3.3. The details panel must include a checkbox to mark the listing as seen/unseen
@@ -60,12 +63,14 @@ The goal is to create a fast, responsive web application that allows users to qu
 3.6. The system must allow users to view full-size photos when clicking thumbnails
 
 ### FR4: Listing Management
+
 4.1. The system must allow users to edit listing information (title, notes, etc.)
 4.2. The system must allow users to delete listings
 4.3. The system must persist all changes to the database
 4.4. The system must provide confirmation before deleting a listing
 
 ### FR5: Visit Plans
+
 5.1. The system must provide a "Visit Plans" section in the interface
 5.2. The system must allow users to create new visit plans
 5.3. The system must allow users to add multiple listings to a visit plan
@@ -74,6 +79,7 @@ The goal is to create a fast, responsive web application that allows users to qu
 5.6. The system must allow users to edit and delete visit plans
 
 ### FR6: User Interface
+
 6.1. The system must be responsive and work on desktop, tablet, and mobile devices
 6.2. The system must provide fast loading times optimized for quick curation
 6.3. The system must use checkboxes for marking listings as seen
@@ -94,6 +100,7 @@ The goal is to create a fast, responsive web application that allows users to qu
 ## Design Considerations
 
 ### UI/UX Requirements
+
 - Follow the design mockup provided (mockup.png)
 - Use checkboxes for marking listings as seen (simple, fast interaction)
 - Implement a two-panel layout: listing list on the left, details panel on the right
@@ -103,6 +110,7 @@ The goal is to create a fast, responsive web application that allows users to qu
 - Minimize clicks required to mark listings as seen or add notes
 
 ### Component Structure
+
 - Main application container with three sections: listings list, details panel, visit plans
 - Listing card component (repeatable)
 - Details panel component
@@ -113,12 +121,14 @@ The goal is to create a fast, responsive web application that allows users to qu
 ## Technical Considerations
 
 ### Technology Stack
+
 - **Frontend:** React (functional components with hooks)
 - **Backend:** Node.js + Express
 - **Database:** MongoDB
 - **Styling:** Responsive CSS (mobile-first approach)
 
 ### Key Technical Requirements
+
 - Implement Craigslist URL parsing and data extraction
 - Handle asynchronous listing uploads with loading states
 - Optimize image loading and display (thumbnails vs full-size)
@@ -126,6 +136,7 @@ The goal is to create a fast, responsive web application that allows users to qu
 - Implement proper error handling for failed uploads or parsing errors
 
 ### Data Model Considerations
+
 - Listing schema should include: title, URL, price, bedrooms, location, photos array, notes, seen status, date added
 - Visit plan schema should include: name, listing references, date created
 - Index listings by "seen" status for fast filtering
@@ -150,6 +161,7 @@ The goal is to create a fast, responsive web application that allows users to qu
 ## Implementation Priority
 
 ### Phase 1 (MVP)
+
 - Listing upload from Craigslist URLs
 - Display listings in a list view
 - Mark listings as seen/unseen
@@ -157,11 +169,13 @@ The goal is to create a fast, responsive web application that allows users to qu
 - View listing details
 
 ### Phase 2
+
 - Photo display and management
 - Edit/delete listings
 - Basic visit plans (grouping only)
 
 ### Phase 3 (Future Enhancements)
+
 - Advanced visit plans with route optimization
 - Additional filtering and sorting options
 - Data export functionality

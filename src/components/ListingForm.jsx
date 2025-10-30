@@ -4,11 +4,11 @@ import { useState } from "react";
 import { LISTING_CONSTRAINTS } from "@/lib/listingModel.js";
 import PhotoUpload from "./PhotoUpload.jsx";
 
-export default function ListingForm({ 
-  initialData = {}, 
-  onSubmit, 
-  isLoading = false, 
-  submitButtonText = "Save Listing" 
+export default function ListingForm({
+  initialData = {},
+  onSubmit,
+  isLoading = false,
+  submitButtonText = "Save Listing",
 }) {
   const [formData, setFormData] = useState({
     title: initialData.title || "",
@@ -16,31 +16,31 @@ export default function ListingForm({
     price: initialData.price || "",
     numberOfRooms: initialData.numberOfRooms || "",
     location: initialData.location || "",
-    photos: initialData.photos && initialData.photos.length > 0 ? initialData.photos : [""]
+    photos: initialData.photos && initialData.photos.length > 0 ? initialData.photos : [""],
   });
 
   const [errors, setErrors] = useState({});
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
-    
+
     // Clear error for this field when user starts typing
     if (errors[name]) {
-      setErrors(prev => ({
+      setErrors((prev) => ({
         ...prev,
-        [name]: ""
+        [name]: "",
       }));
     }
   };
 
   const handlePhotosChange = (newPhotos) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      photos: newPhotos
+      photos: newPhotos,
     }));
   };
 
@@ -100,7 +100,7 @@ export default function ListingForm({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
       return;
     }
@@ -112,9 +112,9 @@ export default function ListingForm({
     submitData.append("price", formData.price);
     submitData.append("numberOfRooms", formData.numberOfRooms);
     submitData.append("location", formData.location.trim());
-    
+
     // Add photos (filter out empty URLs)
-    formData.photos.forEach(photo => {
+    formData.photos.forEach((photo) => {
       if (photo && photo.trim()) {
         submitData.append("photos", photo.trim());
       }
@@ -213,7 +213,9 @@ export default function ListingForm({
               }`}
               placeholder="2"
             />
-            {errors.numberOfRooms && <p className="mt-1 text-sm text-red-600">{errors.numberOfRooms}</p>}
+            {errors.numberOfRooms && (
+              <p className="mt-1 text-sm text-red-600">{errors.numberOfRooms}</p>
+            )}
           </div>
         </div>
 
@@ -239,9 +241,7 @@ export default function ListingForm({
 
         {/* Photos */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Photos
-          </label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">Photos</label>
           <PhotoUpload
             photos={formData.photos}
             onPhotosChange={handlePhotosChange}
@@ -255,9 +255,7 @@ export default function ListingForm({
             type="submit"
             disabled={isLoading}
             className={`px-6 py-3 text-white font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${
-              isLoading
-                ? "bg-gray-400 cursor-not-allowed"
-                : "bg-blue-600 hover:bg-blue-700"
+              isLoading ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"
             }`}
           >
             {isLoading ? "Saving..." : submitButtonText}

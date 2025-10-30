@@ -7,12 +7,12 @@ import { notFound } from "next/navigation";
 export default async function ListingDetail({ params }) {
   const { id } = await params;
   const result = await getListingById(id);
-  
+
   if (!result.success) {
     if (result.error === "Listing not found" || result.error === "Invalid listing ID") {
       notFound();
     }
-    
+
     return (
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
@@ -30,21 +30,21 @@ export default async function ListingDetail({ params }) {
   const listing = result.data;
 
   const formatPrice = (price) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
       minimumFractionDigits: 0,
-      maximumFractionDigits: 0
+      maximumFractionDigits: 0,
     }).format(price);
   };
 
   const formatDate = (date) => {
-    return new Date(date).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
+    return new Date(date).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
     });
   };
 
@@ -53,16 +53,18 @@ export default async function ListingDetail({ params }) {
       <div className="max-w-4xl mx-auto">
         {/* Navigation */}
         <div className="flex items-center justify-between mb-6">
-          <Link 
-            href="/listings" 
-            className="text-blue-600 hover:text-blue-800 flex items-center"
-          >
+          <Link href="/listings" className="text-blue-600 hover:text-blue-800 flex items-center">
             <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M15 19l-7-7 7-7"
+              />
             </svg>
             Back to Listings
           </Link>
-          
+
           <div className="flex gap-3">
             <Link
               href={`/listings/${listing.id}/edit`}
@@ -87,13 +89,23 @@ export default async function ListingDetail({ params }) {
                     fill
                     className="object-cover"
                     onError={(e) => {
-                      e.target.style.display = 'none';
-                      e.target.nextSibling.style.display = 'flex';
+                      e.target.style.display = "none";
+                      e.target.nextSibling.style.display = "flex";
                     }}
                   />
                   <div className="absolute inset-0 bg-gray-300 hidden items-center justify-center">
-                    <svg className="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    <svg
+                      className="w-16 h-16 text-gray-400"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                      />
                     </svg>
                   </div>
                 </div>
@@ -138,9 +150,24 @@ export default async function ListingDetail({ params }) {
               <h1 className="text-3xl font-bold text-gray-900 mb-2">{listing.title}</h1>
               {listing.location && (
                 <p className="text-lg text-gray-600 flex items-center">
-                  <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <svg
+                    className="w-5 h-5 mr-2"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                    />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                    />
                   </svg>
                   {listing.location}
                 </p>
@@ -155,22 +182,20 @@ export default async function ListingDetail({ params }) {
                 </div>
                 <div className="text-sm text-gray-600">per month</div>
               </div>
-              
+
               <div className="bg-blue-50 rounded-lg p-4">
-                <div className="text-2xl font-bold text-blue-600">
-                  {listing.numberOfRooms}
-                </div>
+                <div className="text-2xl font-bold text-blue-600">{listing.numberOfRooms}</div>
                 <div className="text-sm text-gray-600">
-                  {listing.numberOfRooms === 1 ? 'room' : 'rooms'}
+                  {listing.numberOfRooms === 1 ? "room" : "rooms"}
                 </div>
               </div>
-              
+
               <div className="bg-gray-50 rounded-lg p-4">
                 <div className="text-lg font-semibold text-gray-700">
                   {listing.photos ? listing.photos.length : 0}
                 </div>
                 <div className="text-sm text-gray-600">
-                  {listing.photos && listing.photos.length === 1 ? 'photo' : 'photos'}
+                  {listing.photos && listing.photos.length === 1 ? "photo" : "photos"}
                 </div>
               </div>
             </div>

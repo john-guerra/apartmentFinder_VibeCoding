@@ -19,31 +19,31 @@ export const LISTING_CONSTRAINTS = {
   title: {
     minLength: 3,
     maxLength: 100,
-    required: true
+    required: true,
   },
   description: {
     minLength: 10,
     maxLength: 1000,
-    required: true
+    required: true,
   },
   price: {
     min: 0,
     max: 1000000,
-    required: true
+    required: true,
   },
   numberOfRooms: {
     min: 1,
     max: 20,
-    required: true
+    required: true,
   },
   location: {
     maxLength: 200,
-    required: false
+    required: false,
   },
   photos: {
     maxCount: 10,
-    required: false
-  }
+    required: false,
+  },
 };
 
 /**
@@ -55,8 +55,8 @@ export function validateListing(listing) {
   const errors = [];
 
   // Title validation
-  if (!listing.title || typeof listing.title !== 'string') {
-    errors.push('Title is required');
+  if (!listing.title || typeof listing.title !== "string") {
+    errors.push("Title is required");
   } else if (listing.title.length < LISTING_CONSTRAINTS.title.minLength) {
     errors.push(`Title must be at least ${LISTING_CONSTRAINTS.title.minLength} characters`);
   } else if (listing.title.length > LISTING_CONSTRAINTS.title.maxLength) {
@@ -64,21 +64,25 @@ export function validateListing(listing) {
   }
 
   // Description validation
-  if (!listing.description || typeof listing.description !== 'string') {
-    errors.push('Description is required');
+  if (!listing.description || typeof listing.description !== "string") {
+    errors.push("Description is required");
   } else if (listing.description.length < LISTING_CONSTRAINTS.description.minLength) {
-    errors.push(`Description must be at least ${LISTING_CONSTRAINTS.description.minLength} characters`);
+    errors.push(
+      `Description must be at least ${LISTING_CONSTRAINTS.description.minLength} characters`
+    );
   } else if (listing.description.length > LISTING_CONSTRAINTS.description.maxLength) {
-    errors.push(`Description must be no more than ${LISTING_CONSTRAINTS.description.maxLength} characters`);
+    errors.push(
+      `Description must be no more than ${LISTING_CONSTRAINTS.description.maxLength} characters`
+    );
   }
 
   // Price validation
   if (listing.price === undefined || listing.price === null) {
-    errors.push('Price is required');
+    errors.push("Price is required");
   } else {
     const price = Number(listing.price);
     if (isNaN(price)) {
-      errors.push('Price must be a valid number');
+      errors.push("Price must be a valid number");
     } else if (price < LISTING_CONSTRAINTS.price.min) {
       errors.push(`Price must be at least $${LISTING_CONSTRAINTS.price.min}`);
     } else if (price > LISTING_CONSTRAINTS.price.max) {
@@ -88,11 +92,11 @@ export function validateListing(listing) {
 
   // Number of rooms validation
   if (listing.numberOfRooms === undefined || listing.numberOfRooms === null) {
-    errors.push('Number of rooms is required');
+    errors.push("Number of rooms is required");
   } else {
     const rooms = Number(listing.numberOfRooms);
     if (!Number.isInteger(rooms)) {
-      errors.push('Number of rooms must be a whole number');
+      errors.push("Number of rooms must be a whole number");
     } else if (rooms < LISTING_CONSTRAINTS.numberOfRooms.min) {
       errors.push(`Number of rooms must be at least ${LISTING_CONSTRAINTS.numberOfRooms.min}`);
     } else if (rooms > LISTING_CONSTRAINTS.numberOfRooms.max) {
@@ -101,16 +105,18 @@ export function validateListing(listing) {
   }
 
   // Location validation (optional)
-  if (listing.location && typeof listing.location === 'string') {
+  if (listing.location && typeof listing.location === "string") {
     if (listing.location.length > LISTING_CONSTRAINTS.location.maxLength) {
-      errors.push(`Location must be no more than ${LISTING_CONSTRAINTS.location.maxLength} characters`);
+      errors.push(
+        `Location must be no more than ${LISTING_CONSTRAINTS.location.maxLength} characters`
+      );
     }
   }
 
   // Photos validation (optional)
   if (listing.photos) {
     if (!Array.isArray(listing.photos)) {
-      errors.push('Photos must be an array');
+      errors.push("Photos must be an array");
     } else {
       if (listing.photos.length > LISTING_CONSTRAINTS.photos.maxCount) {
         errors.push(`Maximum ${LISTING_CONSTRAINTS.photos.maxCount} photos allowed`);
@@ -118,8 +124,8 @@ export function validateListing(listing) {
       // Validate each photo URL (skip empty strings)
       listing.photos.forEach((photo, index) => {
         // Only validate non-empty photo URLs
-        if (photo && photo.trim() !== '') {
-          if (typeof photo !== 'string') {
+        if (photo && photo.trim() !== "") {
+          if (typeof photo !== "string") {
             errors.push(`Photo ${index + 1} must be a valid URL`);
           }
           // Could add more URL validation here if needed
@@ -130,7 +136,7 @@ export function validateListing(listing) {
 
   return {
     isValid: errors.length === 0,
-    errors
+    errors,
   };
 }
 
@@ -141,17 +147,17 @@ export function validateListing(listing) {
  */
 export function sanitizeListing(rawListing) {
   const now = new Date();
-  
+
   return {
     title: rawListing.title?.trim(),
     description: rawListing.description?.trim(),
     price: Number(rawListing.price),
     numberOfRooms: Number(rawListing.numberOfRooms),
-    location: rawListing.location?.trim() || '',
-    photos: Array.isArray(rawListing.photos) 
-      ? rawListing.photos.filter(url => url && typeof url === 'string' && url.trim() !== '')
+    location: rawListing.location?.trim() || "",
+    photos: Array.isArray(rawListing.photos)
+      ? rawListing.photos.filter((url) => url && typeof url === "string" && url.trim() !== "")
       : [],
     createdAt: rawListing.createdAt || now,
-    updatedAt: now
+    updatedAt: now,
   };
 }

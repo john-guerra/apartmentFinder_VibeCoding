@@ -5,6 +5,7 @@
 This project is built as a **Next.js 15 monorepo** using the App Router. It combines frontend (React) and backend (API routes) in a single codebase, not separate frontend/backend folders.
 
 **Key architectural points:**
+
 - **Frontend**: React Server Components and Client Components in `src/app/` and `src/components/`
 - **Backend**: API routes in `src/app/api/`
 - **Database**: MongoDB with Mongoose, schemas in `src/models/`, connection in `src/lib/`
@@ -15,14 +16,17 @@ This project is built as a **Next.js 15 monorepo** using the App Router. It comb
 This project is organized into 2-week sprints following the SCRUM methodology. Each sprint delivers a fully functional MVP that provides immediate value to the user.
 
 ### Sprint 1 (2 weeks): Core Listing Management MVP
+
 **Value Delivered:** User can manually add listings, view them, mark them as seen, and add notes.
 **Goal:** Enable basic apartment curation workflow without Craigslist integration.
 
 ### Sprint 2 (2 weeks): Craigslist Integration & Photo Management MVP
+
 **Value Delivered:** User can automatically import listings from Craigslist URLs with photos.
 **Goal:** Automate listing entry and enhance information with visual data.
 
 ### Sprint 3 (2 weeks): Visit Plans & Enhanced Management MVP
+
 **Value Delivered:** User can create visit plans, edit/delete listings, and filter views.
 **Goal:** Complete the apartment hunting workflow with visit planning.
 
@@ -31,6 +35,7 @@ This project is organized into 2-week sprints following the SCRUM methodology. E
 ## Relevant Files
 
 ### Sprint 1 Files
+
 - `src/lib/mongodb.js` - MongoDB connection utility with serverless caching
 - `src/models/Listing.js` - Mongoose schema for apartment listings
 - `src/app/api/listings/route.js` - API route for GET all and POST listings
@@ -53,6 +58,7 @@ This project is organized into 2-week sprints following the SCRUM methodology. E
 - `.env.local` - Local environment variables (gitignored)
 
 ### Sprint 2 Files
+
 - `src/lib/craigslistParser.js` - Craigslist URL parsing and data extraction
 - `__tests__/lib/craigslistParser.test.js` - Parser service tests
 - `src/app/api/upload/route.js` - API route for Craigslist URL uploads
@@ -63,6 +69,7 @@ This project is organized into 2-week sprints following the SCRUM methodology. E
 - `src/components/PhotoGallery.test.jsx` - PhotoGallery component tests
 
 ### Sprint 3 Files
+
 - `src/models/VisitPlan.js` - Mongoose schema for visit plans
 - `src/app/api/visit-plans/route.js` - API route for visit plan CRUD operations
 - `__tests__/api/visit-plans.test.js` - Visit plan route tests
@@ -76,6 +83,7 @@ This project is organized into 2-week sprints following the SCRUM methodology. E
 - `src/components/ConfirmDialog.test.jsx` - ConfirmDialog component tests
 
 ### Notes
+
 - Unit tests should be placed in `__tests__/` directory mirroring the source structure
 - Integration tests for API routes should test database interactions
 - Component tests should use React Testing Library
@@ -91,6 +99,7 @@ This project is organized into 2-week sprints following the SCRUM methodology. E
 **Sprint Goal:** Deliver a functional application where users can manually add apartment listings, view them in a list, select individual listings to see details, mark them as seen, and add personal notes.
 
 **Definition of Done:**
+
 - User can manually add a listing with title, location, price, and bedrooms
 - User can view all listings in a scrollable list
 - User can click a listing to see details in the right panel
@@ -161,6 +170,7 @@ This project is organized into 2-week sprints following the SCRUM methodology. E
 **Sprint Goal:** Enhance the application with automatic Craigslist URL parsing and photo management capabilities.
 
 **Definition of Done:**
+
 - User can paste Craigslist URLs and automatically import listing data
 - User can view photos associated with listings
 - Photos are properly stored and displayed
@@ -212,6 +222,7 @@ This project is organized into 2-week sprints following the SCRUM methodology. E
 **Sprint Goal:** Complete the apartment hunting workflow with visit planning, listing management, and filtering capabilities.
 
 **Definition of Done:**
+
 - User can create, edit, and delete visit plans
 - User can add/remove listings from visit plans
 - User can edit and delete individual listings
@@ -252,4 +263,3 @@ This project is organized into 2-week sprints following the SCRUM methodology. E
   - [ ] 13.4 Complete E2E testing suite covering all workflows
   - [ ] 13.5 Production deployment and documentation
   - [ ] 13.6 User acceptance testing and feedback collection
-

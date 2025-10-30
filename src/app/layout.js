@@ -30,17 +30,17 @@ export default async function RootLayout({ children }) {
       >
         <Navigation />
         <Breadcrumb />
-        <main className="min-h-screen">
-          {children}
-        </main>
+        <main className="min-h-screen">{children}</main>
 
         {/* Database Connection Status (only show in development) */}
-        {process.env.NODE_ENV === 'development' && (
+        {process.env.NODE_ENV === "development" && (
           <div className="fixed bottom-4 right-4 z-50">
-            <div className={`px-3 py-2 rounded-full text-sm font-medium ${
-              isConnected ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-            }`}>
-              DB: {isConnected ? 'Connected' : 'Disconnected'}
+            <div
+              className={`px-3 py-2 rounded-full text-sm font-medium ${
+                isConnected ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
+              }`}
+            >
+              DB: {isConnected ? "Connected" : "Disconnected"}
             </div>
           </div>
         )}
